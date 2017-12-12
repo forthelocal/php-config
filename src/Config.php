@@ -18,7 +18,18 @@ class Config
     public function __construct(string $pathToRoot)
     {
         $ymlStr = file_get_contents($pathToRoot . "/settings.yml");
-        $this->yml = Yaml::parse($ymlStr);
+
+        $default = Yaml::parse($ymlStr);
+        $env = getenv("APP_ENV");
+        $envArray = [];
+        if (!empty($env)) {
+            $envYmlStr = file_get_contents($pathToRoot . "/environments/" . $env . ".yml");
+            $envArray = Yaml::parse($envYmlStr);
+        }
+
+        $merged = array_merge($default, $envArray);
+
+        $this->yml = $merged;
         $this->level = 0;
         $this->ancestors = [];
     }
