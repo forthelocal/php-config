@@ -1,0 +1,5 @@
+size: 1
+server: google.com
+section:
+  site: 3
+  servers: [ {name: yahoo.com}, {name: amazon.com}]

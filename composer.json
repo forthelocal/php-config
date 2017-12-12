@@ -1,0 +1,33 @@
+{
+    "name": "forthelocal/laravel-config",
+    "description": "php implementation of https://github.com/railsconfig/config.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.1.3",
+        "symfony/yaml": "^4.0.1"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "ForTheLocal\\Laravel\\Config\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^6.3",
+        "orchestra/testbench": "^3.5"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ForTheLocal\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ForTheLocal\\Laravel\\Config\\ServiceProvider"
+            ]
+        }
+    }
+}
