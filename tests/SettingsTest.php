@@ -3,9 +3,9 @@
 namespace ForTheLocal\Test;
 
 use ForTheLocal\Laravel\Config\Settings;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use PHPUnit\Framework\TestCase;
 
-class SettingsTest extends OrchestraTestCase
+class SettingsTest extends TestCase
 {
 
     public function testLoadConfig()
@@ -13,10 +13,10 @@ class SettingsTest extends OrchestraTestCase
         $path = __DIR__ . "/fixtures/config";
         Settings::loadConfig($path);
         $this->assertEquals("1", Settings::config()->size);
-        $this->assertEquals("google.com", Settings::config()->server);
+        $this->assertEquals("default.google.com", Settings::config()->server);
 
         $this->assertEquals("3", Settings::config()->section->site);
-        $this->assertEquals([["name" => "yahoo.com"], ["name" => "amazon.com"]],
+        $this->assertEquals([["name" => "default.yahoo.com"], ["name" => "default.amazon.com"]],
             Settings::config()->section->servers);
     }
 

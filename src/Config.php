@@ -25,8 +25,6 @@ class Config
 
     public function __get(string $name)
     {
-
-        var_dump($this->yml);
         $yml = $this->yml;
         for ($i = 0; $i < $this->level; $i++) {
             $yml = $yml[$this->ancestors[$i]];
