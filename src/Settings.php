@@ -1,6 +1,6 @@
 <?php
 
-namespace ForTheLocal\Laravel\Config;
+namespace ForTheLocal\PHP\Config;
 
 class Settings
 {

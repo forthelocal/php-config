@@ -2,7 +2,7 @@
 
 namespace ForTheLocal\Test;
 
-use ForTheLocal\Laravel\Config\Settings;
+use ForTheLocal\PHP\Config\Settings;
 use PHPUnit\Framework\TestCase;
 
 class SettingsTest extends TestCase
