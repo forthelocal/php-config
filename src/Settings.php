@@ -1,6 +1,6 @@
 <?php
 
-namespace ForTheLocal\PHP\Config;
+namespace ForTheLocal\PHPConfig;
 
 class Settings
 {

@@ -3,3 +3,6 @@ server: default.google.com
 section:
   site: 3
   servers: [ {name: default.yahoo.com}, {name: default.amazon.com}]
+php_code:
+  env1: {{ getenv('PHP_CONFIG_ENV1'); }}
+  env2: {{ getenv('PHP_CONFIG_ENV2'); }}

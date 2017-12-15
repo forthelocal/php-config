@@ -2,7 +2,7 @@
 
 namespace ForTheLocal\Test;
 
-use ForTheLocal\PHP\Config\Settings;
+use ForTheLocal\PHPConfig\Settings;
 use PHPUnit\Framework\TestCase;
 
 class SettingsTest extends TestCase
@@ -38,8 +38,21 @@ class SettingsTest extends TestCase
         $this->assertEquals("4", Settings::config()->section->site);
         $this->assertEquals([["name" => "development.yahoo.com"], ["name" => "development.amazon.com"]],
             Settings::config()->section->servers);
-
     }
 
+    public function testPHPCode()
+    {
+
+        $envStr1 = 'phpcodetest1';
+        $envStr2 = 'phpcodetest2';
+        putenv("PHP_CONFIG_ENV1=$envStr1");
+        putenv("PHP_CONFIG_ENV2=$envStr2");
+
+        $path = __DIR__ . "/fixtures/config";
+        Settings::loadConfig($path);
+
+        $this->assertEquals($envStr1, Settings::config()->php_code->env1);
+        $this->assertEquals($envStr2, Settings::config()->php_code->env2);
+    }
 
 }

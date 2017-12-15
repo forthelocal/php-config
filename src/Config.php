@@ -1,6 +1,6 @@
 <?php
 
-namespace ForTheLocal\PHP\Config;
+namespace ForTheLocal\PHPConfig;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -19,7 +19,13 @@ class Config
     {
         $ymlStr = file_get_contents($pathToRoot . "/settings.yml");
 
-        $default = Yaml::parse($ymlStr);
+        $str = preg_replace_callback('/\{\{\ .+? }\}/', function($matches) {
+            $str = substr($matches[0],0,-2);
+            $code = 'return ' . substr($str,2);
+            return eval($code);
+        }, $ymlStr);
+
+        $default = Yaml::parse($str);
         $env = getenv("APP_ENV");
         $envArray = [];
         if (!empty($env)) {
