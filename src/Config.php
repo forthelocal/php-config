@@ -29,7 +29,7 @@ class Config
         $env = getenv("APP_ENV");
         $envArray = [];
         if (!empty($env)) {
-            $envYmlStr = file_get_contents($pathToRoot . "/environments/" . $env . ".yml");
+            $envYmlStr = file_get_contents($pathToRoot . "/settings/" . $env . ".yml");
             $envArray = Yaml::parse($envYmlStr);
         }
 

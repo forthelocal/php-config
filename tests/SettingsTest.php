@@ -14,6 +14,8 @@ class SettingsTest extends TestCase
         putenv("APP_ENV");
     }
 
+
+
     public function testDefaultConfig()
     {
         $path = __DIR__ . "/fixtures/config";
