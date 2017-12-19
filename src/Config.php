@@ -19,18 +19,13 @@ class Config
     {
         $ymlStr = file_get_contents($pathToRoot . "/settings.yml");
 
-        $str = preg_replace_callback('/\{\{\ .+? }\}/', function($matches) {
-            $str = substr($matches[0],0,-2);
-            $code = 'return ' . substr($str,2);
-            return eval($code);
-        }, $ymlStr);
 
-        $default = Yaml::parse($str);
+        $default = Yaml::parse($this->replacePHPCode($ymlStr));
         $env = getenv("APP_ENV");
         $envArray = [];
         if (!empty($env)) {
             $envYmlStr = file_get_contents($pathToRoot . "/settings/" . $env . ".yml");
-            $envArray = Yaml::parse($envYmlStr);
+            $envArray = Yaml::parse($this->replacePHPCode($envYmlStr));
         }
 
         $merged = array_merge($default, $envArray);
@@ -73,6 +68,17 @@ class Config
         }
         return false;
 
+    }
+
+    private function replacePHPCode(string $ymlStr)
+    {
+        $str = preg_replace_callback('/\{\{\ .+? \}\}/', function($matches) {
+            $str = substr($matches[0],0,-2);
+            $code = 'return ' . trim(substr($str,2)) . ';';
+            return eval($code);
+        }, $ymlStr);
+
+        return $str;
     }
 
 

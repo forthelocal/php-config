@@ -2,3 +2,5 @@ server: development.google.com
 section:
   site: 4
   servers: [ {name: development.yahoo.com}, {name: development.amazon.com}]
+php_code:
+  env1: {{ getenv('PHP_CONFIG_ENV2') }}
