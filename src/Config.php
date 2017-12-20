@@ -8,6 +8,7 @@ class Config
 {
 
     private $yml;
+    private $ymlStr;
     private $level;
     private $ancestors;
 
@@ -17,15 +18,16 @@ class Config
      */
     public function __construct(string $pathToRoot)
     {
-        $ymlStr = file_get_contents($pathToRoot . "/settings.yml");
+        $this->ymlStr = file_get_contents($pathToRoot . "/settings.yml");
 
-
-        $default = Yaml::parse($this->replacePHPCode($ymlStr));
+        $default = Yaml::parse($this->replacePHPCode($this->ymlStr));
         $env = getenv("APP_ENV");
         $envArray = [];
         if (!empty($env)) {
             $envYmlStr = file_get_contents($pathToRoot . "/settings/" . $env . ".yml");
-            $envArray = Yaml::parse($this->replacePHPCode($envYmlStr));
+            if (!empty($envYmlStr)) {
+                $envArray = Yaml::parse($this->replacePHPCode($envYmlStr));
+            }
         }
 
         $merged = array_merge($default, $envArray);
@@ -42,6 +44,9 @@ class Config
             $yml = $yml[$this->ancestors[$i]];
         }
 
+        if (!array_key_exists($name, $yml)) {
+            throw new \Exception("$name does not exist in the yaml below\n======\n" . $this->ymlStr . "\n=======\n");
+        }
         $var = $yml[$name];
 
         if (!$this->isHash($var)) {
@@ -72,9 +77,9 @@ class Config
 
     private function replacePHPCode(string $ymlStr)
     {
-        $str = preg_replace_callback('/\{\{\ .+? \}\}/', function($matches) {
-            $str = substr($matches[0],0,-2);
-            $code = 'return ' . trim(substr($str,2)) . ';';
+        $str = preg_replace_callback('/\{\{\ .+? \}\}/', function ($matches) {
+            $str = substr($matches[0], 0, -2);
+            $code = 'return ' . trim(substr($str, 2)) . ';';
             return eval($code);
         }, $ymlStr);
 

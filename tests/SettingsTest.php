@@ -57,4 +57,23 @@ class SettingsTest extends TestCase
         $this->assertEquals($envStr2, Settings::config()->php_code->env2);
     }
 
+    public function testEmptyYml()
+    {
+        $path = __DIR__ . "/fixtures/config";
+        putenv("APP_ENV=empty");
+
+        Settings::loadConfig($path);
+
+        $this->assertEquals("1", Settings::config()->size);
+    }
+
+    public function testSpecifyingNonexistentNodeThrowsException()
+    {
+        $path = __DIR__ . "/fixtures/config";
+        Settings::loadConfig($path);
+
+        $this->expectException(\Exception::class);
+        Settings::config()->nonexistent_node;
+    }
+
 }
