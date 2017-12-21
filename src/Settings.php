@@ -5,21 +5,27 @@ namespace ForTheLocal\PHPConfig;
 class Settings
 {
 
-    private static $config;
+    private static $configs;
 
     private function __construct()
     {
         // none
     }
 
-    public static function loadConfig(string $pathToConfig): void
+    public static function loadConfig(string $pathToConfig, string $namespace = null): void
     {
-        self::$config = new Config($pathToConfig);
+        if ($namespace == null){
+            $namespace = env('APP_NAME', 'default');
+        }
+        self::$configs[$namespace] = new Config($pathToConfig);
     }
 
-    public static function config()
+    public static function config(string $namespace = null)
     {
-        return self::$config;
+        if ($namespace == null){
+            $namespace = env('APP_NAME', 'default');
+        }
+        return self::$configs[$namespace];
     }
 
 

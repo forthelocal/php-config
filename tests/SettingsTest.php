@@ -15,7 +15,6 @@ class SettingsTest extends TestCase
     }
 
 
-
     public function testDefaultConfig()
     {
         $path = __DIR__ . "/fixtures/config";
@@ -74,6 +73,18 @@ class SettingsTest extends TestCase
 
         $this->expectException(\Exception::class);
         Settings::config()->nonexistent_node;
+    }
+
+    public function testEnv()
+    {
+        putenv("APP_NAME=test1");
+        $path2 = __DIR__ . "/fixtures/config2";
+        Settings::loadConfig($path2);
+        $this->assertEquals(3, Settings::config()->other);
+
+        $path1 = __DIR__ . "/fixtures/config";
+        Settings::loadConfig($path1, 'test2');
+        $this->assertEquals(1, Settings::config('test2')->size);
     }
 
 }
