@@ -22,9 +22,11 @@ class Config
 
         $default = Yaml::parse($this->replacePHPCode($this->ymlStr));
         $env = getenv("APP_ENV");
+
         $envArray = [];
-        if (!empty($env)) {
-            $envYmlStr = file_get_contents($pathToRoot . "/settings/" . $env . ".yml");
+        $envFilePath = $pathToRoot . "/settings/" . $env . ".yml";
+        if (!empty($env) && file_exists($envFilePath)) {
+            $envYmlStr = file_get_contents($envFilePath);
             if (!empty($envYmlStr)) {
                 $envArray = Yaml::parse($this->replacePHPCode($envYmlStr));
             }

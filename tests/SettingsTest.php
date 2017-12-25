@@ -12,6 +12,7 @@ class SettingsTest extends TestCase
     {
         parent::tearDown();
         putenv("APP_ENV");
+        putenv("APP_NAME");
     }
 
 
@@ -85,6 +86,15 @@ class SettingsTest extends TestCase
         $path1 = __DIR__ . "/fixtures/config";
         Settings::loadConfig($path1, 'test2');
         $this->assertEquals(1, Settings::config('test2')->size);
+    }
+
+    public function testEnvFileNotExists()
+    {
+        putenv("APP_ENV=notexists");
+
+        $path = __DIR__ . "/fixtures/config";
+        Settings::loadConfig($path);
+        $this->assertEquals(1, Settings::config()->size);
     }
 
 }
