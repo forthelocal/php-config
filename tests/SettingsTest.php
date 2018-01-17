@@ -40,6 +40,9 @@ class SettingsTest extends TestCase
         $this->assertEquals("4", Settings::config()->section->site);
         $this->assertEquals([["name" => "development.yahoo.com"], ["name" => "development.amazon.com"]],
             Settings::config()->section->servers);
+
+        $this->assertEquals('level2_1_1', Settings::config()->level1->level2_1->level2_1_1);
+        $this->assertEquals('level2_2', Settings::config()->level1->level2_2);
     }
 
     public function testPHPCode()

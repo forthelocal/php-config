@@ -4,3 +4,6 @@ section:
   servers: [ {name: development.yahoo.com}, {name: development.amazon.com}]
 php_code:
   env1: {{ getenv('PHP_CONFIG_ENV2') }}
+blob_storage:
+level1:
+  level2_2: level2_2

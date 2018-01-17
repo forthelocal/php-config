@@ -32,7 +32,7 @@ class Config
             }
         }
 
-        $merged = array_merge($default, $envArray);
+        $merged = $this->array_merge_recursive_deep($default, $envArray);
 
         $this->yml = $merged;
         $this->level = 0;
@@ -47,7 +47,7 @@ class Config
         }
 
         if (!array_key_exists($name, $yml)) {
-            throw new \Exception("$name does not exist in the yaml below\n======\n" . $this->ymlStr . "\n=======\n");
+            throw new \Exception("$name does not exist in the yaml below\n======\n" . Yaml::dump($this->yml) . "\n=======\n");
         }
         $var = $yml[$name];
 
@@ -88,5 +88,24 @@ class Config
         return $str;
     }
 
+    private function array_merge_recursive_deep(array & $array1, array & $array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => & $value)
+        {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
+            {
+                $merged[$key] = $this->array_merge_recursive_deep($merged[$key], $value);
+            } else if (is_numeric($key))
+            {
+                 if (!in_array($value, $merged))
+                    $merged[] = $value;
+            } else
+                $merged[$key] = $value;
+        }
+
+        return $merged;
+    }
 
 }

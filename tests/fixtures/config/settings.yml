@@ -6,7 +6,7 @@ section:
 php_code:
   env1: {{ getenv('PHP_CONFIG_ENV1') }}
   env2: {{ getenv('PHP_CONFIG_ENV2') }}
-blob_storage:
-  container_name:
-    public: public
-    private: private
+level1:
+  level2_1:
+    level2_1_1: level2_1_1
+    level2_1_2: level2_1_2
